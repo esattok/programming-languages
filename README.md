@@ -1,6 +1,6 @@
 # Bilkent University CS 315 Projects and Homeworks (2021-2022 Fall)
 
-This Repository contains the laboratory assignments and homeworks for CS 315 (Programming Languages) course taken at Bilkent University in 2021-2022 Fall semester.
+This Repository contains the project and homeworks for CS 315 (Programming Languages) course taken at Bilkent University in 2021-2022 Fall semester.
 
 
 ## Project Contents:
