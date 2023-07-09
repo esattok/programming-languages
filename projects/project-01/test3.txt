@@ -1,0 +1,107 @@
+## Connect to the base computer at the start of the program
+connect_to_base();
+
+## In this part, the code will take inputs deciding how the drone will move
+display ("How many degrees the heading will turn right: ");
+int times_heading_right <- take();
+
+if times_heading_right >= 360
+{
+    times_heading_right <- times_heading_right % 360;
+}
+
+display ("How many degrees the heading will turn left: ");
+int times_heading_right <- take();
+
+if times_heading_left >= 360
+{
+    times_heading_left <- times_heading_left % 360;
+}
+
+display ("How many times the drone will climb up: ");
+int times_climb_up <- take();
+
+display ("How many times the drone will drop_down: ");
+int times_drop_down <- take();
+
+display ("How many times the drone will move forward: ");
+int times_move_forward <- take();
+
+display ("How many times the drone will move backward: ");
+int times_move_backward <- take();
+
+## Now that the movement of the drone is decided the code will perform the operations with primitive functions in the same order
+for int i <- 0, i < times_heading_right, i <- i + 1
+{
+    turn_heading_right();
+}
+
+for int i <- 0, i < times_heading_left, i <- i + 1
+{
+    turn_heading_left();
+}
+
+for int i <- 0, i < times_climb_up, i <- i + 1
+{
+    climb_up();
+
+    if stop_vertical()
+    {
+        i <- times_climb_up;
+    }
+}
+
+for int i <- 0, i < times_drop_down, i <- i + 1
+{
+    drop_down();
+
+    if stop_vertical()
+    {
+        i <- times_drop_down;
+    }
+}
+
+for int i <- 0, i < times_move_forward, i <- i + 1
+{
+    move_forward();
+
+    if stop_horizontal()
+    {
+        i <- times_move_forward;
+    }
+}
+
+for int i <- 0, i < times_move_backward, i <- i + 1
+{
+    move_backward();
+
+    if stop_horizontal()
+    {
+        i <- times_move_backward;
+    }
+}
+
+## After the movement of the drone is done, land the drone unless stop condition is not on
+while read_altitude() > 0
+{
+    if stop_vertical() <^=> 1
+    {
+        drop_down();
+    }
+
+    else 
+    {
+        display ("Cannot drop down because drone needs to stop vertically");
+    }
+}
+
+## End of the program
+
+
+
+
+
+
+
+
+

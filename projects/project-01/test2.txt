@@ -1,0 +1,36 @@
+## Initial variable declarations
+int spray_count <- 0;
+db initial_temperature;
+db initial_horizontal_speed;
+db initial_vertical_speed;
+
+## Initial variable assignments
+initial_temperature <- read_temperature();
+initial_horizontal_speed <- read_horizontal_speed();
+initial_vertical_speed <- read_vertical_speed();
+
+## Function that increments the vertical speed of the drone until it reaches the aimed vertical speed and returns the speed when it is reached
+display ("Enter the aimed vertical speed: ");
+db aimed_vertical_speed <- take ();
+define int increment_vertical_speed()
+{
+    while read_vertical_speed() <= aimed_vertical_speed
+    {
+        climb_up();
+    }
+
+    return aimed_vertical_speed;
+}
+
+## For loop that increments the horizontal speed of the drone 10 times by 1 m/s in the heading direction
+for int i <- 0, i < 10, i <- i + 1
+{
+    move_forward();
+}
+
+## Storing the delta (change) values of the drone features compared to the ones that was initially stored in the code
+db temperature_change <- read_temperature() - initial_temperature;
+db horizontal_speed_change <- read_horizontal_speed() - initial_horizontal_speed;
+db vertical_speed_change <- read_vertical_speed() - initial_vertical_speed;
+
+## End of the program

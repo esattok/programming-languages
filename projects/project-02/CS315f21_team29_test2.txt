@@ -1,0 +1,135 @@
+main() {
+
+## General program description:
+
+## The drone sprays the field by moving on top of the sides of the shape. It might be the case that the area of the shape is
+## too large. In that case, some area in the middle of the shape will be left out. In this case, we need to increase the
+## height of the drone so that we cover more area when we spray. This is why we input the height of the drone at the beggining of the program.
+
+## !!! At the beggining, it is necessary that the user put the drone parallel to one arbitrary side of the shape !!!
+
+## The drone may start at any random point inside the shape
+
+## Input variables:
+## the shapes' angles' degrees(!!in a specific order!!), drone's hieght, drone's speed, number of edges of the field
+
+## Pseudo-code:
+
+## 1 - Going to a vertex of the shape after we put drone at a random point in the shape
+
+## We put the drone at some random point in the field, turn on connection to the base, input the values that are mentioned above. Then we send the drone up. Let's say that we
+## originally set the direction of the drone in a way that if it moves forward or backward, it moves in parallel to one side of the shape.
+
+## Starting at a random point in the field, the drone starts moving in parallel to an arbitrary side of the shape, until it hits another side of the shape(we detect a side by using
+## the primary function hitSide()). Now that we are on a side of the shape, we change the drone's heading so that its movement gets parallel to this side of the shape.
+
+## 2 - Moving on each vertex and spraying the field
+
+## Now it's time for spraying. The drone turns on its nozzle, moves on top of the side of the shape, until it hits a vertex(we detect a vertex by using the primary function hitVertex()).
+## After hitting the vertex, the drone changes its heading(the degree for changing the heading is equal to a degree of shape's angle). The drone continues this operation in a
+## loop until the loop's counter reaches the number of edges of the shape.
+
+## 3 - Turning off the nozzle and moving back to the ground
+
+
+
+###################################################################### The Triangle field ######################################################################
+
+## makes internet connection to the base
+connectToBase();
+
+## ------------ Default variable declarations and assignments for the drone ------------
+
+display("Please enter the angles of the field: ");
+const int ANGLE1 <- take(); ## takes the angle in degrees
+const int ANGLE2 <- take();
+const int ANGLE3 <- take();
+
+display("Please enter the speed at which you want the drone to move: ");
+const int SPEED <- take(); ## takes the speed desired speed from the user(in m/s);
+
+display("Please enter the height at which you want the drone to move(this variable depends on the size of your field): ");
+const int HEIGHT <- take(); ## takes the speed height of flight from the user(in meters)
+
+## ------------ Going to the vertex of the shape ------------
+
+## sending the drone to the desired height(in meters)
+climbUp(HEIGHT);
+
+## checking if the drone's heading is in parallel to a shape's side, giving error message if it is not in parallel, and landing the drone
+int heading <- readHeading();
+if heading <^=> 0{
+	display("error: The drone's heading should be in parallel with the shape's side, landing the drone");
+	climbDown(HEIGHT);}
+
+## checking if the drone's height is almost same as users input(with 5 meters error)
+int acceptable_altitude <- HEIGHT - 5;
+acceptable_altitude <- readAltitude();
+if height < acceptable_altitude {
+	display("Warning: The drone's height is lower than your input");}
+
+## start moving until the drone hits a side of the shape
+int hit_side <- hitSide();
+while ^hit_side{
+	moveForward();
+	hit_side <- hitSide();}
+
+## change the heading of the drone, so that the drone will be placed parallel to the side of the shape
+int i;
+for i <- 0, i < ANGLE1, i <- i + 1{
+	turnHeadingRight();} ## the drone always changes its heading to right, making a clockwise movement in the field
+
+## ------------ Moving on each vertex and spraying the field ------------
+## start spraying the field
+sprayOn();
+
+sprayLand(ANGLE1, ANGLE2, ANGLE3); ## this function(defined at the end of this file) sprays the field
+
+## ------------ Turning off the nozzle and moving back to the ground ------------
+## stop spraying the field
+sprayOff();
+
+## getting back to the ground
+climbDown(HEIGHT);
+
+## ------------ Function for spraying the field ------------
+
+## This function traverses through the edges while spraying
+## Bee language supports nested functions
+define int sprayLand(int ANGLE1, int ANGLE2, int ANGLE3) {
+
+	## the while loop below traverses through all different sides of the shape while spraying the fiedld
+	int angle; ## this variable saves the angle in each iteration of the while loop. Because in each iteration, the angle is different
+
+	int side_counter <- 0;
+	while side_counter < 3 {
+		## determine the angle of change of heading in each iteration of the loop
+		if side_counter	<=> 0{
+			angle <- ANGLE2;}
+
+		if side_counter <=> 1{
+			angle <- ANGLE3;}
+
+		if side_counter <=> 2{
+			angle <- ANGLE1;}
+
+		## start moving until the drone hits a vertex of the shape
+		int hit_vertex <- hitVertex();
+		while ^hit_vertex{
+			moveForward();
+			hit_vertex <- hitVertex();}
+
+		## change the heading of the drone, so that the drone will be placed parallel to the next side of the shape
+		int i;
+		for i <- 0, i < ANGLE1, i <- i + 1{
+			turnHeadingRight();} ## the drone always changes its heading to right, making a clockwise movement in the field
+
+		side_counter <- side_counter + 1;}
+
+		## Return 0 means the result is correct
+		return 0;} }
+
+define int testForFunctionOutsideMain() {
+		## This function is a mock up function to test our grammar recognition that recognizes a function definition outside the main Function
+			display("I am a working function :) please forgive our conflicts");
+			return 0;}

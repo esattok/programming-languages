@@ -1,0 +1,45 @@
+## Default variable declarations and assignments for the drone
+int initial_altitude;
+initial_altitude <- 0;
+int temp <- 0;
+int initial_vertical_speed <- temp;
+int initial_horizontal_speed <- temp;
+
+## A basic function to tell how hot it is
+define str tell_how_hot()
+{
+    str var_to_return;
+    if read_temperature() <= 0 
+    {
+        var_to_return <- "it is cold";
+    }
+
+    if read_temperature() > 0 & read_temperature() <= 40
+    {
+        var_to_return <- "it is normal";
+    }
+
+    if read_temperature > 40 
+    {
+        var_to_return <- "it is hot";
+    }
+
+    return var_to_return;
+}
+
+## Displaying the temperature by using function call
+display (tell_how_hot());
+
+## Open the spray mode according to the altitude
+while read_altitude > 100
+{
+    spray_on();
+}
+
+## Land the drone
+while read_altitude > 0
+{
+    drop_down();
+}
+
+## End of the program
